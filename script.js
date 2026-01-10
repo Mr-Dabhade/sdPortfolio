@@ -1,38 +1,5 @@
 $(document).ready(function(){
-    $(window).scroll(function(){
-        // sticky navbar on scroll script
-        if(this.scrollY > 20){
-            $('.navbar').addClass("sticky");
-        }else{
-            $('.navbar').removeClass("sticky");
-        }
-        
-        // scroll-up button show/hide script
-        if(this.scrollY > 500){
-            $('.scroll-up-btn').addClass("show");
-        }else{
-            $('.scroll-up-btn').removeClass("show");
-        }
-    });
-
-    // slide-up script
-    $('.scroll-up-btn').click(function(){
-        $('html').animate({scrollTop: 0});
-        // removing smooth scroll on slide-up button click
-        $('html').css("scrollBehavior", "auto");
-    });
-
-    $('.navbar .menu li a').click(function(){
-        // applying again smooth scroll on menu items click
-        $('html').css("scrollBehavior", "smooth");
-    });
-
-    // toggle menu/navbar script
-    $('.menu-btn').click(function(){
-        $('.navbar .menu').toggleClass("active");
-        $('.menu-btn i').toggleClass("active");
-    });
-
+    
     // typing text animation script
     var typed = new Typed(".typing", {
         strings: ["Student","Student"],
@@ -48,6 +15,7 @@ $(document).ready(function(){
         loop: true
     });
 
+  
     // owl carousel script
     $('.carousel').owlCarousel({
         margin: 20,
@@ -71,3 +39,70 @@ $(document).ready(function(){
         }
     });
 });
+
+
+const toggleBtn = document.getElementById("sidebarToggle");
+const sidebar = document.getElementById("sidebar");
+const icon = toggleBtn.querySelector("i");
+const menuLinks = document.querySelectorAll("#sidebar .menu a");
+
+toggleBtn.addEventListener("click", () => {
+
+  if (sidebar.classList.contains("active")) {
+    sidebar.classList.remove("active");
+    icon.classList.remove("fa-times");
+    icon.classList.add("fa-bars");
+  } else {
+    sidebar.classList.add("active");
+    icon.classList.remove("fa-bars");
+    icon.classList.add("fa-times");
+  }
+
+});
+
+/* menu click → close sidebar */
+menuLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    sidebar.classList.remove("active");
+    icon.classList.remove("fa-times");
+    icon.classList.add("fa-bars");
+  });
+});
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  (function(){
+    emailjs.init("xPcqzZ4F-thO3As2r");
+  })();
+
+  const form = document.getElementById("contact-form");
+
+  if (!form) {
+    console.error("Contact form not found");
+    return;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault(); // ⭐ MOST IMPORTANT
+
+    emailjs.sendForm(
+      "service_srz2bk8",
+      "template_ricq0re",
+      form
+    ).then(
+      function () {
+        document.querySelector(".button-area").innerHTML =
+  "<span style='color:#4ade80;'>Message sent successfully 💙 I will reply to you soon. Thank you!</span>";
+ form.reset();
+      },
+      function (error) {
+        console.log(error);
+        alert("Failed to send message ❌");
+      }
+    );
+  });
+
+});
+
